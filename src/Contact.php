@@ -14,8 +14,9 @@
 
         function showInfo ()
         {
-            return $this->phone . $this->email;
+            return $this->phone . " " . $this->email;
         }
+        //at some point in time, figure out how to make this display prettier or something... i think if i review business card lesson example i could be cool on it
 
         function getNumber ()
         {

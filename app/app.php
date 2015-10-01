@@ -46,22 +46,39 @@
     $app->get("/openings", function()
     {
         $contact_info = new Contact($_GET['phone'], $_GET['email']);
-        // $contact = $contact_info->showInfo();
-        $my_job = new JobOpening ($_GET['title'], $_GET['description'], $contact_info);
+        $contact = $contact_info->showInfo();
+        $my_job = new JobOpening ($_GET['title'], $_GET['description'], $contact);
 
         $job_listings = array($my_job);
 
         foreach ($job_listings as $opening)
+        $output="";
         {
-            echo "<li>";
-            echo $opening->title;
-            echo "<ul>";
-            echo "<li> $opening->description </li>";
-            echo "<li> $opening->contact </li>";
-            echo "</ul>";
-            echo "</li>";
+            $output = $output .
+            "
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
+                <title>Job Board</title>
+            </head>
+            <body>
+                <div class='container'>
+            <li><h3>$opening->title</h3></li>
+            <ul>
+            <li>$opening->description </li>
+            <li> $opening->contact </li>
+            </ul>
+            </li>
+            </div>
+        </body>
+        </html>
+        ";
         }
+        return $output;
+        //why was echo being used in the example, when displaying the information for the posted job? i changed it, to use bootstrap, and the way i did it included taking away echo. it works, but i'm still not sure why i was using echo (other than the example in the lesson showing us to) in the first place.
+        //was "storing the Contact object inside the JobOpening" mean that i should used a $_GET function in the JobOpening object? ahh idk hope it don't come back as something missing i should've learned..
     });
-//in browser, i keep seeing error message "Catchable fatal error: Object of class Contact could not be converted to string in /Users/MacMinii/Documents/epicodus/classwork/Object-Oriented_PHP/job_board/app/app.php on line 59"; so. from what i've gathered so far, this means i'm trying to print the object out as a string. Not sure if this is even what i'm supposed to be doing, thinking it is possible this lesson is "wrong" in saying "Hint: A Contact object would include properties like a name, email and phone number, and you would want to store it inside of the JobOpening object you are creating." Are they actually asking me to do a Contact as a child class? Although immediately prior to the hint, it states you should declare Contact as a separate class from JobOpening?
+
     return $app;
  ?>
